@@ -1,0 +1,26 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.codewithrajranjan.user_management;
+
+message Error {
+    string code = 1;
+    string entity = 2;
+    string message = 3;
+}
+
+message CreateUserRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+
+message CreateUserResponse {
+    bool success = 1;
+    Error error = 2;
+    string user_id = 3;
+}
+
+
+service UserManagement {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+}
