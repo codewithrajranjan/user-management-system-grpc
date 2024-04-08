@@ -3,12 +3,20 @@
  */
 package user.management.system.grpc;
 
+import java.io.IOException;
+
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+import user.management.system.grpc.server.UserManagementServer;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+         Server server = ServerBuilder.forPort(8181)
+         .addService(new UserManagementServer())
+         .build();
+         server.start();
+         server.awaitTermination();
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
 }

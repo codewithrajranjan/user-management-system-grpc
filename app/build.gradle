@@ -20,14 +20,30 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2' 
+    
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.62.2'
+    implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.62.2'
+    implementation group: 'io.grpc', name: 'grpc-stub', version: '1.62.2'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
 
-    runtimeOnly 'io.grpc:grpc-netty-shaded:1.62.2'
-    implementation 'io.grpc:grpc-protobuf:1.62.2'
-    implementation 'io.grpc:grpc-stub:1.62.2'
-    compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.21.1"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.62.2'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
 }
 
 application {
