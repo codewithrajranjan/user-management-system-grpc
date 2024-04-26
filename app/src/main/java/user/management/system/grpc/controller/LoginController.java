@@ -13,8 +13,13 @@ import user.management.system.grpc.service.JWTService;
 
 public class LoginController {
 
-    UserRepository userRepository = new UserRepository();
-    JWTService jwtService = new JWTService();
+    UserRepository userRepository;
+    JWTService jwtService;
+
+    public LoginController(UserRepository userRepository, JWTService jwtService) {
+        this.userRepository = userRepository;
+        this.jwtService = jwtService;
+    }
 
     public LoginResponse login(LoginRequest loginRequest) throws Exception4XX, Exception5XX, SQLException {
      

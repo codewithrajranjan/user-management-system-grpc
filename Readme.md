@@ -1,4 +1,25 @@
+## User management System Java GRPC
 
+- GRPC based server
+- Language used is JAVA
+- JWT support for login 
+- MySQL DB support
+
+
+## Build the Application
+```bash
+./gradlew clean build
+```
+
+
+## Run the Application
+
+- This will start your application on port 8181 
+- You can use localhost:8181 to access the application
+
+```bash
+./gradlew run
+```
 
 
 ## Database Schema

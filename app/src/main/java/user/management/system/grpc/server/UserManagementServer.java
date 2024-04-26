@@ -7,15 +7,26 @@ import com.cwrr.user_management.LoginResponse;
 import com.cwrr.user_management.UserManagementServiceGrpc.UserManagementServiceImplBase;
 
 import user.management.system.grpc.controller.UserCreateController;
+import user.management.system.grpc.db.Database;
+import user.management.system.grpc.db.UserRepository;
 import user.management.system.grpc.controller.LoginController;
 import user.management.system.grpc.exception.Exception4XX;
 import user.management.system.grpc.exception.Exception5XX;
-import user.management.system.grpc.model.User;
+import user.management.system.grpc.service.JWTService;
 
 public class UserManagementServer extends UserManagementServiceImplBase{
 
-    UserCreateController userCreateController = new UserCreateController();
-    LoginController loginController = new LoginController();
+    UserCreateController userCreateController;
+    LoginController loginController;
+
+    public UserManagementServer() {
+
+        Database db = new Database();
+        JWTService jwtService = new JWTService();
+        UserRepository userRepository = new UserRepository(db);
+        userCreateController = new UserCreateController(db, userRepository);
+        loginController = new LoginController(userRepository, jwtService);
+    }
 
     @Override
     public void createUser(com.cwrr.user_management.CreateUserRequest createUserRequest, io.grpc.stub.StreamObserver<com.cwrr.user_management.CreateUserResponse> responseObserver) {
@@ -29,7 +40,16 @@ public class UserManagementServer extends UserManagementServiceImplBase{
             .build();
             responseObserver.onNext(createUserResponse);
             responseObserver.onCompleted();
-        } catch(Exception4XX e ){
+        } catch(Exception5XX e){
+            e.printStackTrace();
+            Error error = Error.newBuilder().setCode(e.getCode()).setEntity(e.getEntity()).setMessage(e.getMessage()).build();
+            CreateUserResponse createUserResponse = CreateUserResponse.newBuilder()
+            .setSuccess(false)
+            .setError(error)
+            .build();
+            responseObserver.onNext(createUserResponse);
+            responseObserver.onCompleted();
+        } catch(Exception4XX e){
             e.printStackTrace();
             Error error = Error.newBuilder().setCode(e.getCode()).setEntity(e.getEntity()).setMessage(e.getMessage()).build();
             CreateUserResponse createUserResponse = CreateUserResponse.newBuilder()
@@ -60,6 +80,15 @@ public class UserManagementServer extends UserManagementServiceImplBase{
             responseObserver.onCompleted();
             
         } catch(Exception4XX e){
+            e.printStackTrace();
+            Error error = Error.newBuilder().setCode(e.getCode()).setEntity(e.getEntity()).setMessage(e.getMessage()).build();
+            LoginResponse loginResponse = LoginResponse.newBuilder()
+            .setSuccess(false)
+            .setError(error)
+            .build();
+            responseObserver.onNext(loginResponse);
+            responseObserver.onCompleted();
+        }catch(Exception5XX e){
             e.printStackTrace();
             Error error = Error.newBuilder().setCode(e.getCode()).setEntity(e.getEntity()).setMessage(e.getMessage()).build();
             LoginResponse loginResponse = LoginResponse.newBuilder()

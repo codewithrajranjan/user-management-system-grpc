@@ -10,8 +10,8 @@ import user.management.system.grpc.model.User;
 public class UserRepository {
     Database db;
 
-    public UserRepository(){
-        db = new Database();
+    public UserRepository(Database db){
+        this.db = db;
     }
     public void CreateUser(User user) throws SQLException{
         String sqlString = "INSERT INTO users (first_name, last_name, email, password) "+

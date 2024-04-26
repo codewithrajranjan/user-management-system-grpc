@@ -3,14 +3,22 @@ package user.management.system.grpc.controller;
 import java.sql.SQLException;
 
 import com.cwrr.user_management.CreateUserRequest;
-import com.cwrr.user_management.CreateUserResponse;
 
+import user.management.system.grpc.db.Database;
 import user.management.system.grpc.db.UserRepository;
 import user.management.system.grpc.exception.Exception4XX;
 import user.management.system.grpc.exception.Exception5XX;
 import user.management.system.grpc.model.User;
 
 public class UserCreateController {
+
+    Database db;
+    UserRepository userRepository;
+
+    public UserCreateController(Database db, UserRepository userRepository) {
+        this.db = db;
+        this.userRepository = userRepository;
+    }
 
     public int createUser(CreateUserRequest createUserRequest) throws Exception4XX, Exception5XX, SQLException {
             if(createUserRequest.getFirstName().isEmpty()) {
@@ -29,8 +37,6 @@ public class UserCreateController {
             user.setEmail(createUserRequest.getEmail());
             user.setPassword(createUserRequest.getPassword());
             
-            UserRepository userRepository = new UserRepository();
-
           
             if(userRepository.findUserByEmail(createUserRequest.getEmail()) != null) {
                 throw new Exception4XX("301", "email", "user already exists with this email");

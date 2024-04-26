@@ -7,7 +7,7 @@ public class Exception5XX extends Exception {
     private String message;
 
     public Exception5XX(String code, String entity, String message) {
-        super();
+        super(message);
         this.code = code;
         this.entity = entity;
         this.message = message;
