@@ -38,4 +38,21 @@ public class UserRepository {
             }
             return null;
     }
+
+    public User findByEmailAndPassword(String email, String password) throws SQLException {
+        String sqlString = "SELECT * FROM users WHERE email = '" + email  +"' AND password = '" + password +"'";
+            Connection connection = db.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet executeQuery = statement.executeQuery(sqlString);
+            if(executeQuery.next()) {
+                User user = new User();
+                user.setId(executeQuery.getInt("id"));
+                user.setFirstName(executeQuery.getString("first_name"));
+                user.setLastName(executeQuery.getString("last_name"));
+                user.setEmail(executeQuery.getString("email"));
+                user.setPassword(executeQuery.getString("password"));
+                return user;
+            }
+            return null;
+    }
 }

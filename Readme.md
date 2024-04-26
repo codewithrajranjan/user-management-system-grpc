@@ -23,3 +23,10 @@ CREATE TABLE `users` (
   CONSTRAINT `unique_email` UNIQUE (`email`)
 ); 
 ```
+
+
+## Website to Generate the Public Private Key
+- https://acte.ltd/utils/openssl
+- Algorithm : RSA
+- Key Size : 2048
+- PKCS8

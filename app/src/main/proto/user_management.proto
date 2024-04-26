@@ -22,7 +22,19 @@ message CreateUserResponse {
     int32 user_id = 3;
 }
 
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    bool success = 1;
+    Error error = 2;
+    string jwt_token = 3;
+}
+
 
 service UserManagementService {
-    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse); 
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc Login(LoginRequest) returns (LoginResponse); 
 }
