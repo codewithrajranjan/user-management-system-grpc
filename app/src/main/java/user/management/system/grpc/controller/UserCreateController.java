@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import com.cwrr.user_management.CreateUserRequest;
 
-import user.management.system.grpc.db.Database;
 import user.management.system.grpc.db.UserRepository;
 import user.management.system.grpc.exception.Exception4XX;
 import user.management.system.grpc.exception.Exception5XX;
@@ -12,11 +11,9 @@ import user.management.system.grpc.model.User;
 
 public class UserCreateController {
 
-    Database db;
     UserRepository userRepository;
 
-    public UserCreateController(Database db, UserRepository userRepository) {
-        this.db = db;
+    public UserCreateController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

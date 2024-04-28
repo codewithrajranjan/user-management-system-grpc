@@ -24,7 +24,7 @@ public class UserManagementServer extends UserManagementServiceImplBase{
         Database db = new Database();
         JWTService jwtService = new JWTService();
         UserRepository userRepository = new UserRepository(db);
-        userCreateController = new UserCreateController(db, userRepository);
+        userCreateController = new UserCreateController(userRepository);
         loginController = new LoginController(userRepository, jwtService);
     }
 
